@@ -8,14 +8,19 @@ import matplotlib.pyplot as plt
 import datetime
 import time
 import pandas as pd
-from decimal import Decimal
 import ccxt
 import ta
+from sklearn import datasets, metrics
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+
 
 
 """ Variables """
 
+var = 5
 var = 10
+
 print(var) # => 10
 
 int_var = -3
@@ -36,14 +41,14 @@ dt = datetime.datetime(2024, 1, 20, 20, 30)
 print(dt)  # => 2024-01-20 20:30:00
 
 now = datetime.datetime.now()
-print(now)  # => show the precise current moment
+print(now)  # => current time
 
 date_string = "2024-01-20"
 date_object = datetime.datetime.strptime(date_string, "%Y-%m-%d")
 print(date_object) # => 2024-01-20 20:30:00
 
 timestamp = time.time()
-print(timestamp) # show current timestamp
+print(timestamp) # => current timestamp
 
 
 """ Structures of data """
@@ -112,12 +117,12 @@ data = {"date": ["2024-01-01", "2024-01-02", "2024-01-03", "2024-01-04", "2024-0
 df = pd.DataFrame(data)
 
 print(df['price'])
-print(df.iloc[0])
+print(df.iloc[-1])
 
 df.head()
 df.shape # => (5,3)
 
-df['date'] = pd.to_datetime(df['date'], unit='ms')
+df['date'] = pd.to_datetime(df['date'])
 df = df.set_index(df['date'])
 del df['date']
 
@@ -133,7 +138,6 @@ print(df['volume'].std()) # => standard deviation of the volumes
 
 
 df_list = {"BTC": df, "ETH": df}
-
 
 for index, row in df.iterrows():
     print(row)
@@ -188,6 +192,29 @@ area = calculate_area_rectangle(2, 3)
 print(area) # => 6
 
 
+""" Data science """
+
+iris = datasets.load_iris()
+
+print("features:", iris.feature_names)
+print("targets:", iris.target_names)
+data = pd.DataFrame({'sepal length':iris.data[:,0],
+                     'sepal width':iris.data[:,1],
+                     'petal length':iris.data[:,2],
+                     'petal width':iris.data[:,3],
+                     'species':iris.target})
+data.head()
+X = data[['sepal length', 'sepal width', 'petal length', 'petal width']]
+y = data['species']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+classifier = RandomForestClassifier(n_estimators=100)
+classifier.fit(X_train,y_train)
+
+y_pred = classifier.predict(X_test)
+print("Accuracy:", metrics.r2_score(y_test, y_pred))
+
 
 """ Graphs """
 
@@ -213,12 +240,12 @@ api_secret = ""
 client = ccxt.binance({"apiKey": api_key, "secret": api_secret, "options": {'defaultType': 'spot'}})
 
 klinesT = client.fetch_ohlcv('BTC/USDT:USDT', '15m', limit=100)
-
 df = pd.DataFrame(np.array(klinesT)[:,:6], columns = ['timestamp', 'open', 'high', 'low', 'close', 'volume'])
 df = df.set_index(df['timestamp'])
 df.index = pd.to_datetime(df.index, unit='ms')
 del df['timestamp']
 
+df_selected = df.loc[df.index.minute==0]
 
 #client.createOrder('BTC/USDT:USDT', 'market', 'buy', amount, params={'leverage': 1})
 
@@ -228,6 +255,7 @@ df['close'].plot(label='close')
 df['MA10'].plot(label='MA10')
 plt.legend()
 plt.show()
+
 
 """ Tests / Errors / exceptions """
 
@@ -240,8 +268,4 @@ except:
 a = 0
 assert a==0
 assert a==1 # => AssertionError    
-
-        
-        
-
 
