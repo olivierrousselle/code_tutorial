@@ -1,1 +1,51 @@
+// This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
 
+//@version=5
+indicator("Indicator tutorial")
+
+src = input(close, "source")
+MA_type = input.string("SMA", "MA type")
+MA_window = input.int(20, "MA window")
+color = input.color(color.red, "Color MA")
+
+
+series int series1 = 0
+series float series2 = 0.0
+series bool series3 = false
+series string series4 = "ok"
+series2 := 1
+series3 := true
+
+var int var1 = 0
+var bool var2 = true
+
+
+ma = ta.sma(close, 10)
+// plot(ma, color=color.red)
+rsi = ta.rsi(close, 14)
+
+highestHigh = ta.highest(high, 20)
+lowestLow = ta.lowest(low, 20)
+
+impulsion = (low - high[2]) / high[2] > 1.0 / 100
+
+MA_function(src, MA_type, MA_length) =>   
+    if MA_type == 'SMA'
+        ta.sma(close, MA_length)
+    else if MA_type == 'EMA'
+        ta.ema(close, MA_length)
+    else if MA_type == 'WMA'
+        ta.wma(close, MA_length)
+    else
+        na  
+    // MA_type == 'SMA' ? ta.sma(close, MA_length) : MA_type == 'EMA' ? ta.ema(close, MA_length) : MA_type == 'WMA' ? ta.wma(src, MA_length) : na
+
+MA = MA_function(src, MA_type, MA_window)
+plot(MA, color=color)
+
+series bool isMidnight = (hour(time, "UTC+1") == 0) and (minute(time, "UTC+1") == 0)
+if(isMidnight)
+    line.new(bar_index, low, bar_index, high, xloc.bar_index, extend.both, color.blue, line.style_dotted, 1)
+
+period = timeframe.period
+nb_seconds_per_candle = timeframe.in_seconds()
