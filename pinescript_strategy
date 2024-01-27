@@ -1,0 +1,28 @@
+// This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+
+//@version=5
+strategy("Strategy tutorial", overlay=true, margin_long=100, margin_short=100)
+
+short_positions = input.bool(true, 'Short Positions')
+
+atr = ta.atr(14)
+
+longCondition = ta.crossover(ta.sma(close, 14), ta.sma(close, 28))
+if (longCondition)
+    strategy.entry("Long market order", strategy.long)
+    strategy.exit("TP/SL Short", from_entry="Long market order", profit=high+atr, stop=low+atr)
+    strategy.close("Short market order")
+
+shortCondition = ta.crossunder(ta.sma(close, 14), ta.sma(close, 28))
+if (shortCondition)
+    if (short_positions)
+        strategy.entry("Short market order", strategy.short)
+        strategy.exit("TP/SL Short", from_entry="Short market order", profit=low-atr, stop=high+atr)
+    strategy.close("Long market order")
+
+if strategy.opentrades == 0
+    limitLongPrice = close * (1 - 0.03)
+    strategy.entry('Long limit order', strategy.long, limit=limitLongPrice, qty=strategy.equity/limitLongPrice)
+    if (short_positions)
+        limitShortPrice = close * (1 + 0.03)
+        strategy.entry('Short limit order', strategy.short, limit=limitShortPrice, qty=strategy.equity/limitShortPrice)
