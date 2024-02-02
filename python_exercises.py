@@ -170,30 +170,8 @@ plt.ylabel('Y-axis')
 plt.show()
 
 
+
 """ Exercise 10 """
-
-data_box = [np.random.normal(0, std, 100) for std in range(1, 3)]
-plt.boxplot(data_box)
-plt.title('Box Plot for Random Data')
-plt.show()
-
-data_hist = np.random.random(1000)
-plt.hist(data_hist, bins=30, edgecolor='black')
-plt.title('Histogram of Random Data')
-plt.xlabel('Value')
-plt.ylabel('Frequency')
-plt.show()
-
-time_points = np.arange(0, 10, 0.1)
-values = np.sin(time_points)
-plt.scatter(time_points, values, marker='o', color='green')
-plt.title('Sin Wave')
-plt.xlabel('Time')
-plt.ylabel('Value')
-plt.show()
-
-
-""" Exercise 11 """
 
 from sklearn.datasets import load_wine
 
@@ -208,5 +186,3 @@ model = RandomForestClassifier()
 model.fit(X_train, y_train)
 accuracy = model.score(X_test, y_test)
 print(f"Model Accuracy: {round(accuracy,2)}")
-
-
