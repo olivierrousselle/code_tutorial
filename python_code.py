@@ -53,7 +53,7 @@ timestamp = time.time()
 print(timestamp) # => current timestamp
 
 
-""" Structures of data """
+""" List, array and dictionnary """
 
 
 my_list = ["BTC", 40000, "ETH", 2400]
@@ -126,6 +126,30 @@ print(df['volume'].std()) # => standard deviation of the volumes
 df_list = {"BTC": df, "ETH": df}
 
 
+""" Data science """
+
+iris = datasets.load_iris()
+
+print("features:", iris.feature_names)
+print("targets:", iris.target_names)
+data = pd.DataFrame({'sepal length':iris.data[:,0],
+                     'sepal width':iris.data[:,1],
+                     'petal length':iris.data[:,2],
+                     'petal width':iris.data[:,3],
+                     'species':iris.target})
+data.head()
+X = data[['sepal length', 'sepal width', 'petal length', 'petal width']]
+y = data['species']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+classifier = RandomForestClassifier(n_estimators=100)
+classifier.fit(X_train,y_train)
+
+y_pred = classifier.predict(X_test)
+print("Accuracy:", metrics.r2_score(y_test, y_pred))
+
+
 """ Conditions and loops """
 
 bitcoin_price = 41000 
@@ -183,30 +207,6 @@ area = calculate_area_rectangle(2, 3)
 print(area) # => 6
 
 
-""" Data science """
-
-iris = datasets.load_iris()
-
-print("features:", iris.feature_names)
-print("targets:", iris.target_names)
-data = pd.DataFrame({'sepal length':iris.data[:,0],
-                     'sepal width':iris.data[:,1],
-                     'petal length':iris.data[:,2],
-                     'petal width':iris.data[:,3],
-                     'species':iris.target})
-data.head()
-X = data[['sepal length', 'sepal width', 'petal length', 'petal width']]
-y = data['species']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-classifier = RandomForestClassifier(n_estimators=100)
-classifier.fit(X_train,y_train)
-
-y_pred = classifier.predict(X_test)
-print("Accuracy:", metrics.r2_score(y_test, y_pred))
-
-
 """ Graphs """
 
 x = np.linspace(-2*np.pi, 2*np.pi, 50) # 50 numbers from -2π to 2π
@@ -230,7 +230,6 @@ ccxt.exchanges # => ccxt exchanges
 api_key = ""
 api_secret = ""
 client = ccxt.binance({"apiKey": api_key, "secret": api_secret, "options": {'defaultType': 'spot'}})
-
 pair = 'BTC/USDT:USDT'
 
 klinesT = client.fetch_ohlcv('BTC/USDT:USDT', '15m', limit=100)
@@ -240,17 +239,15 @@ df.index = pd.to_datetime(df.index, unit='ms')
 del df['timestamp']
 
 df_selected = df.loc[df.index.minute==0]
-
 print(df.iloc[-1]['close']) # => current price
 print(df.iloc[-2]['close']) # => close price of the last candle
 
 usdtAmount = 100
 #client.createOrder('BTC/USDT:USDT', 'market', 'buy', usdtAmount, params={'leverage': 1})
 #client.createOrder('BTC/USDT:USDT', 'limit', 'sell', usdtAmount, price, params={'leverage': 5})
-#client.create_order('BTC/USDT:USDT', 'limit', 'sell', amount, None, {'stopPrice': takeProfitPrice})
+
 
 df['MA10'] = ta.trend.sma_indicator(close=df['close'], window=10)
-
 df['close'].plot(label='close')
 df['MA10'].plot(label='MA10')
 plt.legend()
