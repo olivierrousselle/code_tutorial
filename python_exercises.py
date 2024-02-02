@@ -5,12 +5,8 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import datetime
-import time
 import pandas as pd
-import ccxt
-import ta
-from sklearn import datasets, metrics
+from sklearn.datasets import load_iris, load_wine
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 
@@ -56,8 +52,6 @@ else:
 
 """ Exercise 3 """
 
-import numpy as np
-
 matrix = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 for row in matrix:
     for element in row:
@@ -73,8 +67,6 @@ print("Sum of each column:", column_sums)
 
 """ Exercise 4 """
 
-import pandas as pd
-
 data = {"Name": ["Alice", "Bob", "Charlie"],
         "Age": [25, 30, 22],
         "City": ["Paris", "New York", "London"]}
@@ -89,8 +81,6 @@ print(df)
 
 
 """ Exercise 5 """
-
-from sklearn.datasets import load_iris
 
 iris = load_iris()
 df_iris = pd.DataFrame(data= np.c_[iris['data'], iris['target']], columns= iris['feature_names'] + ['target'])
@@ -145,8 +135,6 @@ print("Sum of cubes:", result)
 
 """ Exercise 9 """
 
-import matplotlib.pyplot as plt
-
 months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 sales = [1500, 2000, 1800, 2500, 3000, 2800, 2000, 2200, 2400, 2800, 3200, 3500]
 plt.bar(months, sales)
@@ -173,16 +161,13 @@ plt.show()
 
 """ Exercise 10 """
 
-from sklearn.datasets import load_wine
-
 wine_data = load_wine()
 df_wine = pd.DataFrame(data = np.c_[wine_data['data'], wine_data['target']], columns= wine_data['feature_names'] + ['target'])
 
-from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(df_wine.iloc[:, :-1], df_wine['target'], test_size=0.2, random_state=42)
 
-from sklearn.ensemble import RandomForestClassifier
 model = RandomForestClassifier()
 model.fit(X_train, y_train)
 accuracy = model.score(X_test, y_test)
 print(f"Model Accuracy: {round(accuracy,2)}")
+
