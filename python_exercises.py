@@ -170,4 +170,3 @@ model = RandomForestClassifier()
 model.fit(X_train, y_train)
 accuracy = model.score(X_test, y_test)
 print(f"Model Accuracy: {round(accuracy,2)}")
-
