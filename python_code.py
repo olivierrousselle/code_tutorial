@@ -15,33 +15,35 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 
 
-
 """ Variables """
 
 var = 5
 var = 10
 print(var) # => 10
-print("var vaut", var) # var vaut 10
-print(f"La valeur de la variable vaut {var}.")
+print("var value is", var) # => var value is 10
+print(f"var value is {var}.") # => var value is 10.
 
 int_var = -3
 float_var = 4.5
 str_var = "Bitcoin"
 bool_var = True
 print(str_var) # => Bitcoin
+none_var = None
 
 result = -3 * 4.5
 print(result) # => -13.5
-
-8 % 2 == 0 # => True
+round(result) # => -14
+abs(result) # => 13.5
 
 word1 = "Hello"
 word2 = " world"
 print(word1 + word2) # => Hello world
 
+8 % 2 == 0 # => True
+
+
 dt = datetime.datetime(2024, 1, 20, 20, 30)
 print(dt)  # => 2024-01-20 20:30:00
-
 now = datetime.datetime.now()
 print(now)  # => current time
 
@@ -53,8 +55,7 @@ timestamp = time.time()
 print(timestamp) # => current timestamp
 
 
-""" List, array and dictionnary """
-
+""" List, dictionnary and array """
 
 my_list = ["BTC", 40000, "ETH", 2400]
 print(my_list[0]) # => BTC
@@ -63,27 +64,17 @@ print(my_list[-1]) # => 2400
 my_list[2] = "ATOM"
 print(my_list) # => ["BTC', 40000, 'ATOM', 2400]
 len(my_list) # => 4
+
 sum([40000, 2400]) # => 42400
+
 my_list.append("AVAX")
 print(my_list) # => ["BTC', 40000, 'ATOM', 2400, 'AVAX']
+
 my_list.insert(1, "ETF") # => ["BTC', 'ETF', 40000, 'ATOM', 2400, 'AVAX']
 del my_list[1] # => ["BTC', 40000, 'ATOM', 2400, 'AVAX']
 
 my_list_multidimensional = [["BTC", 40000, "ETH", 2400], ["AVAX", "ATOM"]]
 print(my_list_multidimensional[0][1]) # => 40000
-
-
-my_array = np.array([40000, 2400, 1])
-my_array_2 = np.arange(0, 10, 3) # => array([0, 3, 6, 9])
-my_array_3 = np.linspace(0, 10, 3) # => array([0, 5, 10])
-print(my_array[0]) # => 40000
-print(my_array_2.mean()) # => 4.5
-my_array_multidimensional = np.array([[1, 2, 3],
-                                      [5, 6, 7]])
-
-random_values = np.random.rand(10) # => generate 10 random values
-print(random_values)
-gaussian_random_values = np.random.normal(0, 1, 10)
 
 
 assets_price = {"BTC": 40000, "ETH": 2400}
@@ -93,6 +84,21 @@ print(assets_price["ETH"]) # => 2500
 assets_price["USDT"] = 1
 print(assets_price) # => {'BTC': 40000, 'ETH': 2400, 'USDT': 1}
 del assets_price["USDT"]
+
+
+my_array = np.array([40000, 2400, 1])
+my_array_2 = np.arange(0, 10, 3) # => array([0, 3, 6, 9])
+my_array_3 = np.linspace(0, 10, 3) # => array([0, 5, 10])
+print(my_array[0]) # => 40000
+print(my_array_2.mean()) # => 4.5
+
+my_array_multidimensional = np.array([[1, 2, 3],
+                                      [5, 6, 7]])
+my_array_multidimensional.shape # => (2, 3)
+
+random_values = np.random.rand(10) # => generate 10 random values
+print(random_values)
+gaussian_random_values = np.random.normal(0, 1, 10)
 
 
 """ Dataframes """
@@ -108,10 +114,11 @@ data = {"date": ["2024-01-01", "2024-01-02", "2024-01-03", "2024-01-04", "2024-0
         "volume": [1000, 1200, 1300, 1250, 1100]}
 df = pd.DataFrame(data)
 
-print(df['price'])
-print(df.iloc[-1])
-df.head()
+print(df['price']) # column 'price'
+print(df.iloc[-1]) # => last row
+df.head() # => 5 first rows
 df.shape # => (5,3)
+
 df['date'] = pd.to_datetime(df['date'])
 df = df.set_index(df['date'])
 del df['date']
@@ -138,11 +145,10 @@ data = pd.DataFrame({'sepal length':iris.data[:,0],
                      'petal width':iris.data[:,3],
                      'species':iris.target})
 data.head()
+
 X = data[['sepal length', 'sepal width', 'petal length', 'petal width']]
 y = data['species']
-
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
 classifier = RandomForestClassifier(n_estimators=100)
 classifier.fit(X_train,y_train)
 
@@ -164,7 +170,7 @@ else:
 list_coins = ["BTC", "ETH", "USDT", "AVAX", "ATOM"]
 for coin in list_coins:
     print(coin)
-# => BTC, ETH, USDT, AVAX, ATOM
+# => BTC ETH USDT AVAX ATOM
 
 for x in range(5):
     print(x) 
@@ -175,7 +181,7 @@ for i in range(12):
 	balance = balance + 4000 - 1500
 print("Balance at the end of the year :", balance, "$") # => 40000 $
 
-list_ = [x*2 for x in range(5)] # => [0, 1, 2, 3, 4]
+list_ = [x*2 for x in range(5)] # => [0, 2, 4, 6, 8]
 
 for index, row in df.iterrows():
     print(row)
@@ -201,7 +207,7 @@ def calculate_area_rectangle(a: int, b: int) -> float:
         Returns: result (area)
     """
     result = a * b
-    return result
+    return a * b
 
 area = calculate_area_rectangle(2, 3)
 print(area) # => 6
@@ -219,7 +225,19 @@ plt.title("Graph") # title of the graph
 plt.show() # drawing of the graph
 
 df['price'].plot()
-plt.ylabel('price')
+plt.ylabel('price') # legend of y-axis
+plt.yscale('log') # y-axis with log scale
+plt.show()
+
+months = ["April", "May", "June", "July", "August", "September", "October", "November"]
+sales = [2500, 3000, 2800, 2000, 2200, 2400, 2800, 3200]
+plt.figure(figsize=(10,5))
+plt.bar(months, sales, color='green', alpha=0.6) # bar diagram
+plt.xlabel('Month')
+plt.ylabel('Sales')
+plt.title('Monthly Sales')
+plt.savefig("chart.jpg") # save as jpg image
+plt.savefig("chart.pdf") # save as pdf image
 plt.show()
 
 
@@ -230,6 +248,7 @@ ccxt.exchanges # => ccxt exchanges
 api_key = ""
 api_secret = ""
 client = ccxt.binance({"apiKey": api_key, "secret": api_secret, "options": {'defaultType': 'spot'}})
+
 pair = 'BTC/USDT:USDT'
 
 klinesT = client.fetch_ohlcv('BTC/USDT:USDT', '15m', limit=100)
@@ -239,6 +258,7 @@ df.index = pd.to_datetime(df.index, unit='ms')
 del df['timestamp']
 
 df_selected = df.loc[df.index.minute==0]
+
 print(df.iloc[-1]['close']) # => current price
 print(df.iloc[-2]['close']) # => close price of the last candle
 
