@@ -263,8 +263,8 @@ print(df.iloc[-1]['close']) # => current price
 print(df.iloc[-2]['close']) # => close price of the last candle
 
 usdtAmount = 100
-#client.createOrder('BTC/USDT:USDT', 'market', 'buy', usdtAmount, params={'leverage': 1})
-#client.createOrder('BTC/USDT:USDT', 'limit', 'sell', usdtAmount, price, params={'leverage': 5})
+#client.create_order('BTC/USDT:USDT', 'market', 'buy', usdtAmount, params={'leverage': 1})
+#client.create_order('BTC/USDT:USDT', 'limit', 'sell', usdtAmount, price, params={'leverage': 5})
 
 
 df['MA10'] = ta.trend.sma_indicator(close=df['close'], window=10)
