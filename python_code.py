@@ -49,7 +49,7 @@ print(now)  # => current time
 
 date_string = "2024-01-20"
 date_object = datetime.datetime.strptime(date_string, "%Y-%m-%d")
-print(date_object) # => 2024-01-20 20:30:00
+print(date_object) # => 2024-01-20 00:00:00
 
 timestamp = time.time()
 print(timestamp) # => current timestamp
