@@ -207,7 +207,7 @@ def calculate_area_rectangle(a: int, b: int) -> float:
         Returns: result (area)
     """
     result = a * b
-    return a * b
+    return result
 
 area = calculate_area_rectangle(2, 3)
 print(area) # => 6
