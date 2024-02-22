@@ -10,7 +10,7 @@ atr = ta.atr(14)
 longCondition = ta.crossover(ta.sma(close, 14), ta.sma(close, 28))
 if (longCondition)
     strategy.entry("Long market order", strategy.long)
-    strategy.exit("TP/SL Short", from_entry="Long market order", profit=high+atr, stop=low+atr)
+    strategy.exit("TP/SL Long", from_entry="Long market order", profit=high+atr, stop=low-atr)
     strategy.close("Short market order")
 
 shortCondition = ta.crossunder(ta.sma(close, 14), ta.sma(close, 28))
