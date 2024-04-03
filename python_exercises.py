@@ -170,3 +170,40 @@ model = RandomForestClassifier()
 model.fit(X_train, y_train)
 accuracy = model.score(X_test, y_test)
 print(f"Model Accuracy: {round(accuracy,2)}")
+
+""" Exercise 11 """
+
+def calculer_moyenne_mobile(prix, fenetre):
+    moyenne_mobile = []
+    for i in range(len(prix) - fenetre + 1):
+        moyenne = np.mean(prix[i:i+fenetre])
+        moyenne_mobile.append(moyenne)
+    return moyenne_mobile
+
+def trouver_points_achat_vente(prix, moyenne_mobile):
+    points_achat = []
+    points_vente = []
+    for i in range(1, len(prix)):
+        if prix[i] > moyenne_mobile[i-1] and prix[i-1] <= moyenne_mobile[i-1]:
+            points_achat.append(i)
+        elif prix[i] < moyenne_mobile[i-1] and prix[i-1] >= moyenne_mobile[i-1]:
+            points_vente.append(i)
+    return points_achat, points_vente
+
+prix = [100, 105, 110, 115, 120, 115, 110, 105, 100, 95]
+fenetre_moyenne_mobile = 3
+
+moyenne_mobile = calculer_moyenne_mobile(prix, fenetre_moyenne_mobile)
+points_achat, points_vente = trouver_points_achat_vente(prix, moyenne_mobile)
+
+jours = range(len(prix))
+plt.plot(jours, prix, label='Prix', color='blue')
+plt.plot(jours[fenetre_moyenne_mobile-1:], moyenne_mobile, label=f'Moyenne mobile ({fenetre_moyenne_mobile} jours)', color='red', linestyle='--')
+plt.scatter(points_achat, [prix[i] for i in points_achat], color='green', label='Point d\'achat', marker='^', s=100)
+plt.scatter(points_vente, [prix[i] for i in points_vente], color='red', label='Point de vente', marker='v', s=100)
+plt.title('Stratégie de suivi de tendance')
+plt.xlabel('Jours')
+plt.ylabel('Prix')
+plt.legend()
+plt.grid(True)
+plt.show()
